@@ -2,7 +2,7 @@
 Clustering
 **********
 
-.. currentmodule:: graspy.cluster
+.. currentmodule:: graspologic.cluster
 
 K-Means Clustering
 ------------------
@@ -12,4 +12,9 @@ Gaussian Mixture Models Clustering
 ----------------------------------
 .. autoclass:: GaussianCluster
 
-.. autoclass:: PyclustCluster
+.. autoclass:: AutoGMMCluster
+
+Hierarchical Clustering
+----------------------------------
+.. autoclass:: DivisiveCluster
+

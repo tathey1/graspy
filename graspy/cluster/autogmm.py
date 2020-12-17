@@ -30,21 +30,21 @@ class AutoGMMCluster(BaseCluster):
     AutoGMM Cluster.
 
     Clustering algorithm using a hierarchical agglomerative clustering then Gaussian
-    mixtured model (GMM) fitting. Different combinations of agglomeration, GMM, and 
+    mixtured model (GMM) fitting. Different combinations of agglomeration, GMM, and
     cluster numbers are used and the clustering with the best Bayesian Information
     Criterion (BIC) is chosen.
 
 
     Parameters
     ----------
-    min_components : int, default=2. 
+    min_components : int, default=2.
         The minimum number of mixture components to consider (unless
         max_components=None, in which case this is the maximum number of
         components to consider). If max_components is not None, min_components
         must be less than or equal to max_components.
 
     max_components : int or None, default=20.
-        The maximum number of mixture components to consider. Must be greater 
+        The maximum number of mixture components to consider. Must be greater
         than or equal to min_components.
 
     affinity : {'euclidean','manhattan','cosine','none', 'all' (default)}, optional
@@ -80,11 +80,11 @@ class AutoGMMCluster(BaseCluster):
            considers all linkages in ['ward','complete','average','single']
         If a list/array, it must be a list/array of strings containing only
             'ward', 'complete', 'average', and/or 'single'.
-        
+
     covariance_type : {'full', 'tied', 'diag', 'spherical', 'all' (default)} , optional
         String or list/array describing the type of covariance parameters to use.
         If a string, it must be one of:
-        
+
         - 'full'
             each component has its own general covariance matrix
         - 'tied'
@@ -97,7 +97,7 @@ class AutoGMMCluster(BaseCluster):
             considers all covariance structures in ['spherical', 'diag', 'tied', 'full']
         If a list/array, it must be a list/array of strings containing only
             'spherical', 'tied', 'diag', and/or 'spherical'.
-    
+
     random_state : int, RandomState instance or None, optional (default=None)
         If int, random_state is the seed used by the random number generator;
         If RandomState instance, random_state is the random number generator;
@@ -307,10 +307,14 @@ class AutoGMMCluster(BaseCluster):
                 and params["linkage"] != paramgrid[0]["linkage"]
             ):
                 continue
-            elif params["linkage"] == "ward" and params["affinity"] != "euclidean" and params["affinity"] != "none":
+            elif (
+                params["linkage"] == "ward"
+                and params["affinity"] != "euclidean"
+                and params["affinity"] != "none"
+            ):
                 continue
             else:
-                
+
                 gm_keys = ["covariance_type", "n_components", "random_state"]
                 gm_params = {key: params[key] for key in gm_keys}
 
@@ -407,7 +411,7 @@ class AutoGMMCluster(BaseCluster):
         X : array-like, shape (n_samples, n_features)
             List of n_features-dimensional data points. Each row
             corresponds to a single data point.
-        
+
         y : array-like, shape (n_samples,), optional (default=None)
             List of labels for X if available. Used to compute
             ARI scores.
@@ -483,7 +487,11 @@ class AutoGMMCluster(BaseCluster):
         for params in param_grid:
             if label_init is not None:
                 onehot = self._labels_to_onehot(label_init)
-                weights_init, means_init, precisions_init = self._onehot_to_initialparams(
+                (
+                    weights_init,
+                    means_init,
+                    precisions_init,
+                ) = self._onehot_to_initialparams(
                     X, onehot, params[1]["covariance_type"]
                 )
                 gm_params = params[1]
@@ -501,7 +509,11 @@ class AutoGMMCluster(BaseCluster):
                     X_subset = X
                 agg_clustering = agg.fit_predict(X_subset)
                 onehot = self._labels_to_onehot(agg_clustering)
-                weights_init, means_init, precisions_init = self._onehot_to_initialparams(
+                (
+                    weights_init,
+                    means_init,
+                    precisions_init,
+                ) = self._onehot_to_initialparams(
                     X_subset, onehot, params[1]["covariance_type"]
                 )
                 gm_params = params[1]

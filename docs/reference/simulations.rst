@@ -2,7 +2,7 @@
 Simulations
 ***********
 
-.. currentmodule:: graspy.simulations
+.. currentmodule:: graspologic.simulations
 
 
 
@@ -13,3 +13,10 @@ Simulations
 .. autofunction:: sbm
 
 .. autofunction:: rdpg
+
+.. autofunction:: er_corr
+
+.. autofunction:: sbm_corr
+
+.. autofunction:: rdpg_corr
+

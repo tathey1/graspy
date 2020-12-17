@@ -1,9 +1,12 @@
+# Copyright (c) Microsoft Corporation and contributors.
+# Licensed under the MIT License.
+
 import unittest
-import graspy as gs
+import graspologic as gs
 import numpy as np
 import networkx as nx
-from graspy.simulations import *
-from graspy.utils.utils import is_symmetric, is_loopless
+from graspologic.simulations import *
+from graspologic.utils.utils import is_symmetric, is_loopless, symmetrize, cartprod
 
 
 def remove_diagonal(A):
@@ -355,6 +358,14 @@ class Test_WSBM(unittest.TestCase):
         cls.Psy = np.vstack(([0.6, 0.2], [0.3, 0.4]))
         cls.Psy = symmetrize(cls.Psy)
         cls.seed = 12345
+
+    def test_sbm_label(self):
+        np.random.seed(1)
+        n = [3, 3]
+        p = [[0.5, 0.1], [0.1, 0.5]]
+        A, l = sbm(n, p, return_labels=True)
+        label = [0, 0, 0, 1, 1, 1]
+        self.assertTrue(np.allclose(l, label))
 
     def test_sbm(self):
         n = [50, 60, 70]
