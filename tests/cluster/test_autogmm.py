@@ -1,4 +1,3 @@
-
 # Copyright (c) Microsoft Corporation and contributors.
 # Licensed under the MIT License.
 
@@ -10,7 +9,6 @@ from sklearn.exceptions import NotFittedError
 from graspologic.cluster.autogmm import AutoGMMCluster
 from graspologic.embed.ase import AdjacencySpectralEmbed
 from graspologic.simulations.simulations import sbm
-
 
 
 def test_inputs():
@@ -41,7 +39,6 @@ def test_inputs():
     with pytest.raises(ValueError):
         AutoGMM = AutoGMMCluster(min_components=1, affinity="graspologic")
 
-
     # linkage is not an array, string or list
     with pytest.raises(TypeError):
         AutoGMM = AutoGMMCluster(min_components=1, linkage=1)
@@ -61,7 +58,6 @@ def test_inputs():
     # covariance type is not in ['spherical', 'diag', 'tied', 'full']
     with pytest.raises(ValueError):
         AutoGMM = AutoGMMCluster(min_components=1, covariance_type="graspologic")
-
 
     # min_cluster > n_samples when max_cluster is None
     with pytest.raises(ValueError):
@@ -189,6 +185,7 @@ def test_cosine_with_0():
         AutoGMM = AutoGMMCluster(min_components=2, affinity="all")
         AutoGMM.fit(X)
 
+
 def test_no_y():
     np.random.seed(1)
 
@@ -285,7 +282,6 @@ def test_two_class_aic():
     assert_equal(AutoGMM.ari_ <= 1, True)
 
 
-
 def test_five_class():
     """
     Easily separable five gaussian problem.
@@ -329,7 +325,6 @@ def test_five_class_aic():
     assert_equal(AutoGMM.n_components_ <= 10, True)
 
 
-
 def test_ase_three_blocks():
     """
     Expect 3 clusters from a 3 block model
@@ -359,7 +354,6 @@ def test_ase_three_blocks():
 
     # Asser that we get perfect clustering
     assert_allclose(AutoGMM.ari_, 1)
-
 
 
 def test_covariances():
